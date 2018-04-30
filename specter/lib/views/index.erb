@@ -1,0 +1,12 @@
+<h1>Spector</h1>
+
+<div>
+  <a href="/scans/new">New Scan</a>
+</div>
+
+<% scans.each do |scan| %>
+  <div>
+    <div>scan data</div>
+    <div><%= scan.name %></div>
+  </div>
+<% end %>
