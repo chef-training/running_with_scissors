@@ -12,7 +12,7 @@ With the project's root directory as your current working directory.
 
 * Install the project dependencies: `npm install`
 
-* Run the migrations: `npm ...`
+* Run the migrations: `bin/migrate`
 * Run the service: `npm start`
 
 ## Requirements
