@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,700');
+
+body {
+  font-family: "Titillium Web", Helvetica, Arial, sans-serif;
+  color: #FFFFFF;
+  background-color: #243442;
+  margin: 0;
+}
+
+h1 {
+  margin-top: 6em;
+  text-align: center;
+  font-weight: 400;
+}
+
+a {
+  color: #00B7FF;
+}
+
+footer {
+  position: fixed;
+  min-height: 102px;
+  bottom: 0;
+  background-image: url("/images/image-bg-footer.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+
+.haiku {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.haiku-line {
+  font-size: 24px;
+  color: #dddddd;
+}
+
+form {
+  width: 500px;
+}
+
+.haiku-input {
+  display: inline;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  padding: 0px 10px 0px 10px;
+}
+
+.short {
+  width: 300px;
+}
+
+.long {
+  width: 400px;
+}
+
+button {
+  display: block;
+  width: 80%;
+  margin-top: 40px;
+  height: 30px;
+  background-color: #4296B4;
+  font-size: 12px;
+  color: #fff;
+}
+
+.line-count {
+  display: inline;
+  padding: 10px;
+}
+
+.logos {
+  margin: 4em auto 0;
+  width: 340px;
+}
+
+.habitat-logo {
+  float: left;
+}
+
+.nodejs-logo {
+  float: right;
+  margin-top: 15px;
+}
+
+.habicat-jumping {
+  position: absolute;
+  left: 10%;
+  bottom: 6em;
+}
+
+.habicat-set {
+  position: absolute;
+  right: 20%;
+  bottom: 3px;
+}

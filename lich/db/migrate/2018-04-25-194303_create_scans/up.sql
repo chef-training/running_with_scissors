@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS scans (id INTEGER PRIMARY KEY, data TEXT NOT NULL);
+
+INSERT INTO scans
+SELECT '{ "success" : "true" }'
+WHERE NOT EXISTS(SELECT 1 FROM scans WHERE id = 1);

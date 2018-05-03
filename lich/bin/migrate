@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var db = require('../db');
+
+// TODO: accept parameters for up/down/redo
+
+// Store the latest migration applied.
+db.run("CREATE TABLE IF NOT EXISTS schema (migration VARCHAR PRIMARY KEY);")
+
+// TODO: read all the directories within the db/migrate directory
+
+var currentMigration = "2018-04-25-194303";
+
+fs.readFile( __dirname + "/../db/migrate/" + currentMigration + "_create_scans/up.sql", function(err, data) {
+  if (err) { throw err; }
+
+  console.log("Running Migration: " + currentMigration);
+
+  db.run(data.toString());
+
+  // Update the schema table sole record to report this migration
+  db.run("delete from schema");
+  db.run("INSERT INTO schema VALUES (?)", [ currentMigration ]);
+});
