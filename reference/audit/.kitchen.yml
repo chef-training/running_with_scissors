@@ -1,0 +1,177 @@
+---
+driver:
+  name: dokken
+  privileged: true # because Docker and SystemD/Upstart
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+  chef_log_level: info
+  chef_output_format: minimal
+
+verifier:
+  name: inspec
+  sudo: false
+
+platforms:
+- name: ubuntu-12.04
+  driver:
+    image: ubuntu:12.04
+    intermediate_instructions:
+    - RUN /usr/bin/apt-get update
+- name: ubuntu-14.04
+  driver:
+    image: ubuntu:14.04
+    intermediate_instructions:
+    - RUN /usr/bin/apt-get update
+- name: ubuntu-15.10
+  driver:
+    image: ubuntu:15.10
+    intermediate_instructions:
+    - RUN /usr/bin/apt-get update
+    pid_one_command: /bin/systemd
+- name: centos-6.6
+  driver:
+    image: centos:6.6
+- name: centos-6.7
+  driver:
+    image: centos:6.7
+    intermediate_instructions:
+      - RUN yum install -y initscripts
+- name: centos-7
+  driver:
+    image: centos:7
+    pid_one_command: /usr/lib/systemd/systemd
+- name: oracle-6.6
+  driver:
+    image: oraclelinux:6.6
+- name: oracle-6.7
+  driver:
+    image: oraclelinux:6.7
+- name: oracle-7.1
+  driver:
+    image: oraclelinux:7.1
+    pid_one_command: /usr/lib/systemd/systemd
+- name: debian-7
+  driver:
+    image: debian:7
+    intermediate_instructions:
+    - RUN /usr/bin/apt-get update
+    - RUN /usr/bin/apt-get install -y procps
+- name: debian-8
+  driver:
+    image: debian:8
+    intermediate_instructions:
+    - RUN /usr/bin/apt-get update
+    pid_one_command: /bin/systemd
+
+suites:
+  - name: default # run inspec locally
+    run_list:
+      - recipe[test_helper::setup]
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        profiles:
+          - name: ssh-hardening
+            url: https://github.com/dev-sec/tests-ssh-hardening/archive/master.zip
+          - git: https://github.com/dev-sec/tests-ssh-hardening.git
+          - name: ssh-baseline
+            supermarket: dev-sec/ssh-baseline
+  - name: inspec-attributes
+    run_list:
+      - recipe[test_helper::setup]
+      - recipe[test_helper::create_file]
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        profiles:
+          - git: https://github.com/mhedgpeth/attribute-file-exists-profile.git
+        attributes:
+          file: /opt/kitchen/cache/attribute-file-exists.test
+  - name: chef-node-enabled
+    run_list:
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        profiles:
+          - url: https://github.com/adamleff/inspec-profile-chef-node-attributes/archive/master.tar.gz
+        chef_node_attribute_enabled: true
+  - name: chef-node-disabled
+    run_list:
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        profiles:
+          - url: https://github.com/adamleff/inspec-profile-chef-node-attributes/archive/master.tar.gz
+  - name: missing-profile-no-fail
+    run_list:
+      - recipe[test_helper::setup]
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        profiles:
+          - name: ssh-hardening
+            url: https://github.com/dev-sec/this-is-not-available.zip
+    includes:
+      - ubuntu-14.04
+  - name: missing-profile-fail
+    run_list:
+      - recipe[test_helper::setup]
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        fail_if_not_present: true
+        profiles:
+          - name: ssh-hardening
+            url: https://github.com/dev-sec/this-is-not-available.zip
+    includes:
+      - ubuntu-14.04
+  - name: compliance # compliance direct reporting
+    run_list:
+      - recipe[audit::default]
+    attributes:
+      audit:
+        server: <%= ENV['COMPLIANCE_API'] %>
+        token: <%= ENV['COMPLIANCE_ACCESSTOKEN'] %>
+        owner: admin
+        profiles:
+          - name: ssh-hardening
+            url: https://github.com/dev-sec/tests-ssh-hardening/archive/master.zip
+          - git: https://github.com/dev-sec/tests-ssh-hardening.git
+          - name: ssh-baseline
+            supermarket: dev-sec/ssh-baseline
+  - name: gem-install-version
+    run_list:
+      - recipe[test_helper::install_inspec]
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        inspec_version: 1.29.0
+        fail_if_not_present: true
+  - name: skip-inspec-gem-install
+    run_list:
+      - recipe[test_helper::install_inspec]
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        inspec_version: 1.25.1
+        fail_if_not_present: true
+  - name: chef-12-test
+    run_list:
+      - recipe[audit::default]
+    attributes:
+      audit:
+        reporter: json-file
+        inspec_version: 1.25.1
+        fail_if_not_present: true
