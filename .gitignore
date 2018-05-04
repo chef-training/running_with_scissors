@@ -1,0 +1,5 @@
+**/results/*.hart
+**/results/*.env
+
+**/node_modules/*
+**/testdb.sqlite
