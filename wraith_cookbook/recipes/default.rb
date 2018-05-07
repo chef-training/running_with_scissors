@@ -49,7 +49,25 @@ execute 'build' do
   command 'source /root/.bash_profile && cargo build'
 end
 
-execute 'run' do
-  cwd '/srv/wraith'
-  command 'source /root/.bash_profile && cargo run &'
+# execute 'run' do
+#   cwd '/srv/wraith'
+#   # command 'source /root/.bash_profile && cargo run &'
+# end
+
+template '/etc/systemd/system/wraith.service' do
+  source 'service.erb'
+end
+
+template '/srv/wraith/start.sh' do
+  source 'start.sh.erb'
+  mode '0777'
+end
+
+template '/srv/wraith/stop.sh' do
+  source 'stop.sh.erb'
+  mode '0777'
+end
+
+service 'wraith' do
+  action :start
 end
