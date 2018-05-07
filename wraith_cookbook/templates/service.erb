@@ -1,0 +1,12 @@
+[Unit]
+Description=Wraith Service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/srv/wraith
+ExecStart=/bin/bash /srv/wraith/start.sh
+ExecStop=/bin/bash /srv/wraith/stop.sh
+
+[Install]
+WantedBy=multi-user.target

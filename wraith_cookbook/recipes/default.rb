@@ -35,24 +35,19 @@ package [ 'sqlite-devel', 'mysql-devel', 'postgresql-devel' ]
 
 execute 'install diesel-cli' do
   cwd '/srv/wraith'
-  command 'source /root/.bash_profile && cargo install diesel_cli'
+  command '/root/.cargo/bin/cargo install diesel_cli'
   not_if { File.exist?('/root/.cargo/bin/diesel') }
 end
 
 execute 'database setup' do
   cwd '/srv/wraith'
-  command 'source /root/.bash_profile && diesel setup && diesel migration run'
+  command '/root/.cargo/bin/diesel setup && /root/.cargo/bin/diesel migration run'
 end
 
 execute 'build' do
   cwd '/srv/wraith'
-  command 'source /root/.bash_profile && cargo build'
+  command '/root/.cargo/bin/cargo build'
 end
-
-# execute 'run' do
-#   cwd '/srv/wraith'
-#   # command 'source /root/.bash_profile && cargo run &'
-# end
 
 template '/etc/systemd/system/wraith.service' do
   source 'service.erb'
