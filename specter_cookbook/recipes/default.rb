@@ -4,12 +4,6 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
-
-ruby_runtime '/srv/specter' do
-  version '2.4'
-  options :system, dev_package: true
-end
-
 directory '/srv' do
   recursive true
 end
@@ -27,18 +21,36 @@ execute 'extract_site' do
   cwd '/srv'
 end
 
-application '/srv/specter' do
+package %w[git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel]
 
-  # Install the dependencies
-  bundle_install do
-    deployment true
-  end
+remote_file '/tmp/ruby-2.5.1.tar.gz' do
+  source 'https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gz'
+end
 
-  # Migrate the database
-  # ruby_execute 'rake migrate'
-  #
-  # # Start the service
-  # rackup do
-  #   port 8000
-  # end
+execute 'extract ruby' do
+  cwd '/tmp'
+  command 'tar -xvf ruby-2.5.1.tar.gz'
+  not_if { File.exist?('/tmp/ruby-2.5.1') }
+end
+
+execute 'configure, make and install ruby' do
+  cwd '/tmp/ruby-2.5.1'
+  command './configure && make && make install'
+  not_if { File.exist?('/usr/local/bin/ruby') }
+end
+
+execute 'install bundler' do
+  command '/usr/local/bin/gem install bundler'
+  not_if { File.exist?('/usr/local/bin/bundle') }
+end
+
+execute 'bundle install' do
+  cwd '/srv/specter'
+  command '/usr/local/bin/bundle install'
+  not_if { File.exist?('/usr/local/bin/bundle') }
+end
+
+execute 'run application' do
+  cwd '/srv/specter'
+  command 'PATH=$PATH:/usr/local/bin /usr/local/bin/rackup --port 8000 &'
 end
