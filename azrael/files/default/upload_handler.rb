@@ -15,22 +15,29 @@ module Azrael
         options[:server] || 'http://localhost:8000'
       end
 
+      def audit_cookbook_scan_path
+        File.join(Chef::Config[:cookbook_path], 'audit')
+      end
+
       def report
-        # Retrieve the data
+        data = load_audit_inspec_json
+        response_body = upload_json_data options[:server], data
+        save_response(response_body)
+      end
 
-        # The audit cookbook provides no mechanism to specify the file path of where it outputs the
-        # JSON file. It is found within the cookbook's directory, relative to the handler file.
+      private
 
-        data = "{}"
-
-        Dir[File.join(Chef::Config[:cookbook_path],'audit/inspec-*.json')].each do |scan_filepath|
+      # The audit cookbook provides no mechanism to specify the file path of where it outputs the
+      # JSON file. It is found within the cookbook's directory, relative to the handler file.
+      def load_audit_inspec_json
+        data = {}
+        Dir[File.join(audit_cookbook_scan_path,'inspec-*.json')].each do |scan_filepath|
           data = File.read(scan_filepath)
         end
+        data
+      end
 
-        # Upload the data
-
-        # This is going to upload it to an application running locally on the system.
-
+      def upload_json_data(reporting_server, data)
         connection = Faraday.new(url: reporting_server)
         response_body = ""
 
@@ -44,11 +51,13 @@ module Azrael
         rescue
           response_body = "FAILED TO CONTACT #{reporting_server}"
         end
-
-        # Write the response
-
-        File.write('upload-response.txt',response_body)
+        response_body
       end
+
+      def save_response(body)
+        File.write('upload-response.txt',body)
+      end
+
     end
   end
 end
