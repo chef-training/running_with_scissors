@@ -19,6 +19,7 @@ execute 'extract_site' do
   command 'unzip specter.zip'
   action :nothing
   cwd '/srv'
+  not_if { File.exist?('/srv/specter') }
 end
 
 package %w[git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel]
