@@ -1,0 +1,12 @@
+[Unit]
+Description=<%= @service_name %>
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=<%= @working_directory %>
+ExecStart=/bin/bash <%= @working_directory %>/start.sh
+ExecStop=/bin/bash <%= @working_directory %>/stop.sh
+
+[Install]
+WantedBy=multi-user.target

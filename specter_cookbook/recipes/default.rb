@@ -47,10 +47,24 @@ end
 execute 'bundle install' do
   cwd '/srv/specter'
   command '/usr/local/bin/bundle install'
-  not_if { File.exist?('/usr/local/bin/bundle') }
+  not_if { File.exist?('/srv/specter/Gemfile.lock') }
 end
 
-execute 'run application' do
-  cwd '/srv/specter'
-  command 'PATH=$PATH:/usr/local/bin /usr/local/bin/rackup --port 8000 &'
+template '/etc/systemd/system/specter.service' do
+  source 'service.erb'
+  variables({ service_name: 'specter', working_directory: '/srv/specter' })
+end
+
+template '/srv/specter/start.sh' do
+  source 'start.sh.erb'
+  mode '0774'
+end
+
+template '/srv/specter/stop.sh' do
+  source 'stop.sh.erb'
+  mode '0774'
+end
+
+service 'specter' do
+  action :start
 end
