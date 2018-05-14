@@ -16,10 +16,10 @@ cookbook_file '/srv/specter.zip' do
 end
 
 execute 'extract_site' do
-  command 'unzip specter.zip'
-  action :nothing
   cwd '/srv'
+  command 'unzip specter.zip'
   not_if { File.exist?('/srv/specter') }
+  action :nothing
 end
 
 package %w[git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel]
