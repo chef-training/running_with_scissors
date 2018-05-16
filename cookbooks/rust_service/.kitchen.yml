@@ -23,7 +23,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[wraith_cookbook::default]
+      - recipe[rust_service::default]
     verifier:
       inspec_tests:
         - test/integration/default

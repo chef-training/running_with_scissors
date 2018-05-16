@@ -1,5 +1,5 @@
 #
-# Cookbook:: wraith_cookbook
+# Cookbook:: rust_service
 # Recipe:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
@@ -10,12 +10,14 @@ package 'unzip'
 
 cookbook_file '/srv/wraith.zip' do
   source 'wraith.zip'
+  notifies :run, 'execute[extract_site]', :immediately
 end
 
-execute 'unpack_site' do
+execute 'extract_site' do
   cwd '/srv'
   command 'unzip wraith.zip'
   not_if { File.exist?('/srv/wraith') }
+  action :nothing
 end
 
 execute 'install rust nightly' do
@@ -25,11 +27,11 @@ end
 
 execute 'update && update' do
   cwd '/srv/wraith'
-  command 'source /root/.bash_profile && rustup update && cargo update'
+  command '/root/.cargo/bin/rustup update && /root/.cargo/bin/cargo update'
 end
 
-yum_package 'gcc'
 execute 'yum groupinstall "Development Tools" -y'
+
 package [ 'sqlite-devel', 'mariadb-devel', 'postgresql-devel' ]
 
 execute 'install diesel-cli' do

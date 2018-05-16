@@ -1,12 +1,10 @@
 #
-# Cookbook:: specter_cookbook
+# Cookbook:: ruby_service
 # Recipe:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
-directory '/srv' do
-  recursive true
-end
+directory '/srv'
 
 package 'unzip'
 
@@ -49,6 +47,11 @@ execute 'bundle install' do
   cwd '/srv/specter'
   command '/usr/local/bin/bundle install'
   not_if { File.exist?('/srv/specter/Gemfile.lock') }
+end
+
+execute 'database migration' do
+  cwd '/srv/specter'
+  command 'rake migrate'
 end
 
 template '/etc/systemd/system/specter.service' do

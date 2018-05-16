@@ -23,7 +23,7 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[lich_cookbook::default]
+      - recipe[node_service::default]
     verifier:
       inspec_tests:
         - ../../web_service

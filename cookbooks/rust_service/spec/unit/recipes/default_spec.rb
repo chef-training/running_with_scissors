@@ -1,12 +1,12 @@
 #
-# Cookbook:: wraith_cookbook
+# Cookbook:: rust_service
 # Spec:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
 require 'spec_helper'
 
-describe 'wraith_cookbook::default' do
+describe 'rust_service::default' do
   context 'When all attributes are default, on Ubuntu 16.04' do
     let(:chef_run) do
       # for a complete list of available platforms and versions see:

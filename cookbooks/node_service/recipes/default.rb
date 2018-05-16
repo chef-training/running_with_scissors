@@ -1,5 +1,5 @@
 #
-# Cookbook:: lich_cookbook
+# Cookbook:: node_service
 # Recipe:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
@@ -11,12 +11,11 @@ package 'unzip'
 cookbook_file '/srv/lich.zip' do
   source 'lich.zip'
   notifies :run, 'execute[extract_site]', :immediately
-  not_if { File.exist?('/srv/lich') }
 end
 
 execute 'extract_site' do
-  command 'unzip lich.zip'
   cwd '/srv'
+  command 'unzip lich.zip'
   not_if { File.exist?('/srv/lich') }
   action :nothing
 end
@@ -41,13 +40,6 @@ end
 execute 'migrate databate' do
   cwd '/srv/lich'
   command 'bin/migrate'
-  notifies :create, 'file[/srv/lich/db_migrated]', :immediately
-  not_if { File.exist?('/srv/lich/db_migrated') }
-end
-
-file '/srv/lich/db_migrated' do
-  content 'migrated'
-  action :nothing
 end
 
 template '/etc/systemd/system/lich.service' do

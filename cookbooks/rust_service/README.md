@@ -1,4 +1,4 @@
-# wraith_cookbook
+# rust_service
 
 TODO: Enter the cookbook description here.
 
