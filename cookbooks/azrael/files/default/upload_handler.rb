@@ -1,6 +1,5 @@
 require 'chef/handler'
 require 'json'
-require 'faraday'
 
 module Azrael
   module Handler
@@ -33,25 +32,23 @@ module Azrael
         data = {}
         Dir[File.join(audit_cookbook_scan_path,'inspec-*.json')].each do |scan_filepath|
           data = File.read(scan_filepath)
+          File.write('last_scan.json',data)
         end
         data
       end
 
       def upload_json_data(reporting_server, data)
-        connection = Faraday.new(url: reporting_server)
-        response_body = ""
+        # connection = Faraday.new(url: reporting_server)
+        connection = Chef::HTTP.new(reporting_server)
+        headers = { 'Content-Type' => 'application/json' }
 
         begin
-          response = connection.post do |req|
-            req.url '/scans'
-            req.headers['Content-Type'] = 'application/json'
-            req.body = data
-          end
-          response_body = response.body
-        rescue
-          response_body = "FAILED TO CONTACT #{reporting_server}"
+          connection.post("/scans", data.to_s, headers)
+        rescue Exception => e
+          """FAILED TO CONTACT #{reporting_server}
+          #{e.message}
+          """
         end
-        response_body
       end
 
       def save_response(body)

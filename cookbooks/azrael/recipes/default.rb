@@ -4,42 +4,53 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
+# @see https://github.com/chef-cookbooks/audit
+
 node.default['audit'] = {
-  'reporter' => 'file',
-  'format' => 'junit',
-  'path' => '/tmp/%{platform}-%{suite}_inspec.xml',
+  'reporter' => 'json-file',
+  'interval' => { 'enabled' => false },
   'profiles' => [
+    # TODO: A profile that looks the one that they developed but on the web
+    # TODO: their profile zipped up and stored into the cookbook
     {
       "name" => "linux-baseline",
       "supermarket" => "dev-sec/linux-baseline"
     }
-  ],
-  'interval' => {
-    'enabled' => false
-  }
+  ]
 }
+
+# @see https://docs.chef.io/resource_chef_handler.html
 
 include_recipe 'audit'
 
-directory '/etc/chef/handlers' do
-  recursive true
-end
-
-cookbook_file '/etc/chef/handlers/upload_handler.rb' do
-  source 'upload_handler.rb'
-end
-
-chef_gem 'faraday'
-
 chef_handler 'Azrael::Handler::UploadFile' do
-  source '/etc/chef/handlers/upload_handler.rb'
+  source "#{Chef::Config[:cookbook_path]}/#{cookbook_name}/files/default/upload_handler.rb"
   arguments [ server: 'http://localhost:8000' ]
   supports report: true, exception: true
   action :enable
 end
 
+# @see https://docs.chef.io/dsl_handler.html
+
 Chef.event_handler do
   on :run_completed do
-    puts "When do I run compared to other handlers"
+    # Ruby Version
+    connection = Chef::HTTP.new('http://localhost:8000')
+    headers = { 'Content-Type' => 'application/json' }
+
+    Dir["#{Chef::Config[:cookbook_path]}/audit/inspec-*.json"].each do |scan_file|
+      data = File.read(scan_file)
+      connection.post("/scans", data.to_s, headers)
+    end
+
+    # shell_out version
+    upload = Mixlib::ShellOut.new "curl -d @$(find . -name #{scan_path}) -H 'Content-Type: application/json' http://localhost:8000/scans"
+    upload.run_command
+
+    # Bash Version
+    scan_path = "#{Chef::Config[:cookbook_path]}/audit/inspec-*.json"
+    puts `curl -d @$(find . -name #{scan_path}) -H "Content-Type: application/json" http://localhost:8000/scans`
+
+
   end
 end
