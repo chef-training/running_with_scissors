@@ -1,0 +1,10 @@
+
+testdb.sqlite
+
+/target/
+**/*.rs.bk
+Cargo.lock
+
+/target/
+**/*.rs.bk
+results/
