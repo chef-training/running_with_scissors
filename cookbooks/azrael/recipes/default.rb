@@ -34,7 +34,15 @@ end
 
 Chef.event_handler do
   on :run_completed do
-    # Ruby Version
+    # BASH Solution
+    scan_path = "#{Chef::Config[:cookbook_path]}/audit/inspec-*.json"
+    puts `curl -d @$(find . -name #{scan_path}) -H "Content-Type: application/json" http://localhost:8000/scans`
+
+    # ShellOut Solution
+    upload = Mixlib::ShellOut.new "curl -d @$(find . -name #{scan_path}) -H 'Content-Type: application/json' http://localhost:8000/scans"
+    upload.run_command
+
+    # Ruby/Chef Solution
     connection = Chef::HTTP.new('http://localhost:8000')
     headers = { 'Content-Type' => 'application/json' }
 
@@ -42,15 +50,5 @@ Chef.event_handler do
       data = File.read(scan_file)
       connection.post("/scans", data.to_s, headers)
     end
-
-    # shell_out version
-    upload = Mixlib::ShellOut.new "curl -d @$(find . -name #{scan_path}) -H 'Content-Type: application/json' http://localhost:8000/scans"
-    upload.run_command
-
-    # Bash Version
-    scan_path = "#{Chef::Config[:cookbook_path]}/audit/inspec-*.json"
-    puts `curl -d @$(find . -name #{scan_path}) -H "Content-Type: application/json" http://localhost:8000/scans`
-
-
   end
 end
