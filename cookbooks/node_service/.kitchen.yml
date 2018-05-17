@@ -26,5 +26,5 @@ suites:
       - recipe[node_service::default]
     verifier:
       inspec_tests:
-        - ../../web_service
+        - test/integration/default
     attributes:
