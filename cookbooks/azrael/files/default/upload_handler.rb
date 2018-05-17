@@ -38,7 +38,6 @@ module Azrael
       end
 
       def upload_json_data(reporting_server, data)
-        # connection = Faraday.new(url: reporting_server)
         connection = Chef::HTTP.new(reporting_server)
         headers = { 'Content-Type' => 'application/json' }
 
