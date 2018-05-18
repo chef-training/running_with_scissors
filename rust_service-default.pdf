@@ -1,0 +1,368 @@
+%PDF-1.3
+%‚„œ”
+2 0 obj
+<<
+/Length 3740
+>>
+stream
+BT
+/TT2 1 Tf
+0 6.8892 -6.8892 0 32.0373 27.4446 Tm
+0 g
+/GS1 gs
+0 Tc
+0 Tw
+(ò/cookbooks/rust_service/recipes/default.rb)Tj
+/TT4 1 Tf
+0 9.6448 -9.6448 0 46.0453 51.2811 Tm
+[(0:)-599.8(#)]TJ
+0 -1.0714 TD
+[(1:)-599.8(# Cookbook:: rust_service)]TJ
+T*
+[(2:)-599.8(# Recipe:: default)]TJ
+T*
+[(3:)-599.8(#)]TJ
+T*
+[(4:)-599.8(# Copyright:: 2018, The Authors, All Rights Reserved.)]TJ
+T*
+(5:)Tj
+T*
+[(6:)-599.8(directory í/srví)]TJ
+T*
+(7:)Tj
+T*
+[(8:)-599.8(package íunzipí)]TJ
+T*
+(9:)Tj
+-0.6 -1.0714 TD
+[(10:)-599.7(cookbook_file í/srv/wraith.zipí do)]TJ
+T*
+[(11:)-599.7(  source íwraith.zipí)]TJ
+T*
+[(12:)-599.7(  notifies :run, íexecute[extract_site]í, :immediately)]TJ
+T*
+[(13:)-599.7(end)]TJ
+T*
+(14:)Tj
+T*
+[(15:)-599.7(execute íextract_siteí do)]TJ
+T*
+[(16:)-599.7(  cwd í/srví)]TJ
+T*
+[(17:)-599.7(  command íunzip wraith.zipí)]TJ
+T*
+[(18:)-599.7(  not_if { File.exist?\(í/srv/wraithí\) })]TJ
+T*
+[(19:)-599.7(  action :nothing)]TJ
+T*
+[(20:)-599.7(end)]TJ
+T*
+(21:)Tj
+T*
+[(22:)-599.7(execute íinstall rust nightlyí do)]TJ
+T*
+[(23:)-599.7(  command ícurl https://sh.rustup.rs -sSf | sh -s -- )]TJ
+ET
+0 G
+0 J 0 j 0.138 w 10 M []0 d
+1 i 
+278.899 380.17 m
+278.899 382.581 l
+283.722 377.759 l
+281.31 378.964 m
+283.722 377.759 l
+282.516 380.17 l
+S
+BT
+0 9.6448 -9.6448 0 294.0554 27.4446 Tm
+(--default-toolchain nightly -yí)Tj
+1.8714 -1.0714 TD
+[(24:)-599.7(  not_if { File.exist?\(íò/.rustupí\) })]TJ
+T*
+[(25:)-599.7(end)]TJ
+T*
+(26:)Tj
+T*
+[(27:)-599.7(execute íupdate && updateí do)]TJ
+T*
+[(28:)-599.7(  cwd í/srv/wraithí)]TJ
+T*
+[(29:)-599.7(  command í/root/.cargo/bin/rustup update && )]TJ
+ET
+351.235 333.875 m
+351.235 336.286 l
+356.058 331.464 l
+353.647 332.669 m
+356.058 331.464 l
+354.852 333.875 l
+S
+BT
+0 9.6448 -9.6448 0 366.3916 27.4446 Tm
+(/root/.cargo/bin/cargo updateí)Tj
+1.8714 -1.0714 TD
+[(30:)-599.7(end)]TJ
+T*
+(31:)Tj
+T*
+[(32:)-599.7(execute íyum groupinstall "Development Tools" -yí)]TJ
+T*
+(33:)Tj
+T*
+[(34:)-599.7(package [ ísqlite-develí, ímariadb-develí, )]TJ
+ET
+413.238 322.301 m
+413.238 324.712 l
+418.06 319.89 l
+415.649 321.095 m
+418.06 319.89 l
+416.855 322.301 l
+S
+BT
+0 9.6448 -9.6448 0 428.3942 27.4446 Tm
+(ípostgresql-develí ])Tj
+1.8714 -1.0714 TD
+(35:)Tj
+T*
+[(36:)-599.7(execute íinstall diesel-clií do)]TJ
+T*
+[(37:)-599.7(  cwd í/srv/wraithí)]TJ
+T*
+[(38:)-599.7(  command í/root/.cargo/bin/cargo install diesel_clií)]TJ
+T*
+[(39:)-599.7(  not_if { File.exist?\(í/root/.cargo/bin/dieselí\) })]TJ
+T*
+[(40:)-599.7(end)]TJ
+T*
+(41:)Tj
+T*
+[(42:)-599.7(execute ídatabase setupí do)]TJ
+T*
+[(43:)-599.7(  cwd í/srv/wraithí)]TJ
+T*
+[(44:)-599.7(  command í/root/.cargo/bin/diesel setup && )]TJ
+ET
+526.909 328.088 m
+526.909 330.499 l
+531.732 325.677 l
+529.32 326.882 m
+531.732 325.677 l
+530.526 328.088 l
+S
+BT
+0 9.6448 -9.6448 0 542.0654 27.4446 Tm
+(/root/.cargo/bin/diesel migration runí)Tj
+1.8714 -1.0714 TD
+[(45:)-599.7(end)]TJ
+T*
+(46:)Tj
+/TT2 1 Tf
+0 6.8892 -6.8892 0 32.0373 429.4446 Tm
+(ò/cookbooks/rust_service/recipes/default.rb)Tj
+/TT4 1 Tf
+0 9.6448 -9.6448 0 46.0453 447.4942 Tm
+[(47:)-599.7(execute íbuildí do)]TJ
+T*
+[(48:)-599.7(  cwd í/srv/wraithí)]TJ
+T*
+[(49:)-599.7(  command í/root/.cargo/bin/cargo buildí)]TJ
+T*
+[(50:)-599.7(end)]TJ
+T*
+(51:)Tj
+T*
+[(52:)-599.7(template í/etc/systemd/system/wraith.serviceí do)]TJ
+T*
+[(53:)-599.7(  source íservice.erbí)]TJ
+T*
+[(54:)-599.7(end)]TJ
+T*
+(55:)Tj
+T*
+[(56:)-599.7(template í/srv/wraith/start.shí do)]TJ
+T*
+[(57:)-599.7(  source ístart.sh.erbí)]TJ
+T*
+[(58:)-599.7(  mode í0777í)]TJ
+T*
+[(59:)-599.7(end)]TJ
+T*
+(60:)Tj
+T*
+[(61:)-599.7(template í/srv/wraith/stop.shí do)]TJ
+T*
+[(62:)-599.7(  source ístop.sh.erbí)]TJ
+T*
+[(63:)-599.7(  mode í0777í)]TJ
+T*
+[(64:)-599.7(end)]TJ
+T*
+(65:)Tj
+T*
+[(66:)-599.7(service íwraithí do)]TJ
+T*
+[(67:)-599.7(  action :start)]TJ
+T*
+[(68:)-599.7(end)]TJ
+ET
+endstream
+endobj
+3 0 obj
+<<
+/ProcSet [/PDF /Text ]
+/Font <<
+/TT2 4 0 R
+/TT4 5 0 R
+>>
+/ExtGState <<
+/GS1 6 0 R
+>>
+>>
+endobj
+6 0 obj
+<<
+/Type /ExtGState
+/SA false
+/SM 0.02
+/OP false
+/op false
+/OPM 1
+/BG2 /Default
+/UCR2 /Default
+/HT /Default
+/TR2 /Default
+>>
+endobj
+8 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 753
+/CapHeight 562
+/Descent -246
+/Flags 262179
+/FontBBox [-113 -250 749 801]
+/FontName /Courier-Bold
+/ItalicAngle 0
+/StemV 133
+/XHeight 439
+/StemH 84
+>>
+endobj
+9 0 obj
+<<
+/Type /FontDescriptor
+/Ascent 753
+/CapHeight 562
+/Descent -246
+/Flags 35
+/FontBBox [-28 -250 628 805]
+/FontName /Courier
+/ItalicAngle 0
+/StemV 51
+/XHeight 426
+/StemH 51
+>>
+endobj
+4 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 46
+/LastChar 152
+/Widths [600 600 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 600 0 600 600 600 600 600 600 0 0 600 0 600 600 0 
+0 600 600 0 600 600 600 600 600 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 0 600 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Courier-Bold
+/FontDescriptor 8 0 R
+>>
+endobj
+5 0 obj
+<<
+/Type /Font
+/Subtype /TrueType
+/FirstChar 32
+/LastChar 152
+/Widths [600 0 600 600 0 0 600 0 600 600 0 0 600 600 600 600 
+600 600 600 600 600 600 600 600 600 600 600 0 0 0 0 600 
+0 600 0 600 600 0 600 0 0 0 0 0 0 0 0 0 
+0 0 600 600 600 0 0 0 0 0 0 600 0 600 0 600 
+0 600 600 600 600 600 600 600 600 600 0 600 600 600 600 600 
+600 600 600 600 600 600 600 600 600 600 600 600 600 600 0 0 
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 600 0 0 0 0 0 600 ]
+/Encoding /WinAnsiEncoding
+/BaseFont /Courier
+/FontDescriptor 9 0 R
+>>
+endobj
+1 0 obj
+<<
+/Type /Page
+/Parent 7 0 R
+/Resources 3 0 R
+/Contents 2 0 R
+>>
+endobj
+10 0 obj
+<<
+/S /D
+>>
+endobj
+11 0 obj
+<<
+/Nums [0 10 0 R ]
+>>
+endobj
+7 0 obj
+<<
+/Type /Pages
+/Kids [1 0 R]
+/Count 1
+/Rotate 90
+/MediaBox [0 0 595 842]
+>>
+endobj
+12 0 obj
+<<
+/CreationDate (D:20180518155000-05'00')
+/ModDate (D:20180518155000-05'00')
+/Producer (PSNormalizer.framework)
+>>
+endobj
+13 0 obj
+<<
+/Type /Catalog
+/Pages 7 0 R
+/PageLabels 11 0 R
+>>
+endobj
+xref
+0 14
+0000000000 65535 f 
+0000005401 00000 n 
+0000000016 00000 n 
+0000003808 00000 n 
+0000004445 00000 n 
+0000004869 00000 n 
+0000003914 00000 n 
+0000005549 00000 n 
+0000004054 00000 n 
+0000004255 00000 n 
+0000005481 00000 n 
+0000005509 00000 n 
+0000005641 00000 n 
+0000005773 00000 n 
+trailer
+<<
+/Size 14
+/Root 13 0 R
+/Info 12 0 R
+/ID [<a40de2c16e6b301a9748770ed800b2f8><a40de2c16e6b301a9748770ed800b2f8>]
+>>
+startxref
+5842
+%%EOF

@@ -3,3 +3,7 @@
 
 **/node_modules/*
 **/testdb.sqlite
+
+**/.terraform
+**/terraform.tfstate
+**/terraform.tfstate.backup
