@@ -1,0 +1,31 @@
+{
+  "variables": {
+    "aws_keypair_name": "{{env `TRAINING_AWS_KEYPAIR_NAME`}}",
+    "aws_keypair_file": "{{env `TRAINING_AWS_KEYPAIR`}}",
+    "name": "Running with Scissors - CentOS 7.4 - 0.1.0",
+    "chefdk_version": "2.5.3"
+  },
+  "builders": [{
+    "ssh_username": "chef",
+    "ssh_password": "Cod3Can!",
+    "type": "amazon-ebs",
+    "ssh_pty": true,
+    "region": "us-east-1",
+    "instance_type": "m3.medium",
+    "source_ami": "ami-007c8faf8eab08841",
+    "ami_name": "{{user `name`}}"
+  }],
+
+  "provisioners": [{
+    "type": "shell",
+    "inline": [
+      "echo 'The base image updated cloud-init. Waiting for cloud-init to finish (~ 5 minutes).'",
+      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting 15 seconds for cloud-init...'; sleep 15; done",
+      "curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -v {{user `chefdk_version`}} -P chefdk",
+      "sudo yum install -y git tree",
+      "git clone https://github.com/chef-training/running_with_scissors.git /home/chef/running_with_scissors-source",
+      "cp -R /home/chef/running_with_scissors-source/cookbooks /home/chef/cookbooks",
+      "cp -R /home/chef/running_with_scissors-source/services /home/chef/services"
+    ]
+  }]
+}
