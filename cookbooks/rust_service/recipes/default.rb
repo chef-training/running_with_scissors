@@ -20,23 +20,23 @@ execute 'extract_site' do
   action :nothing
 end
 
-execute 'install rust nightly' do
+execute 'install rustup default nightly' do
   command 'curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y'
   not_if { File.exist?('~/.rustup') }
 end
 
-execute 'update && update' do
-  cwd '/srv/wraith'
-  command '/root/.cargo/bin/rustup update && /root/.cargo/bin/cargo update'
-end
-
 execute 'yum groupinstall "Development Tools" -y'
 
-package [ 'sqlite-devel', 'mariadb-devel', 'postgresql-devel' ]
+package [ 'sqlite-devel' ]
+
+execute 'install dependencies' do
+  cwd '/srv/wraith'
+  command '/root/.cargo/bin/cargo install --force'
+end
 
 execute 'install diesel-cli' do
   cwd '/srv/wraith'
-  command '/root/.cargo/bin/cargo install diesel_cli'
+  command '/root/.cargo/bin/cargo install diesel_cli --version 1.2.0 --no-default-features --features "sqlite"'
   not_if { File.exist?('/root/.cargo/bin/diesel') }
 end
 

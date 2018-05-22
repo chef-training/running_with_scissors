@@ -2,7 +2,7 @@
 %‚„œ”
 2 0 obj
 <<
-/Length 3740
+/Length 4240
 >>
 stream
 BT
@@ -59,7 +59,7 @@ T*
 T*
 (21:)Tj
 T*
-[(22:)-599.7(execute íinstall rust nightlyí do)]TJ
+[(22:)-599.7(execute íinstall rustup default nightlyí do)]TJ
 T*
 [(23:)-599.7(  command ícurl https://sh.rustup.rs -sSf | sh -s -- )]TJ
 ET
@@ -83,11 +83,11 @@ T*
 T*
 (26:)Tj
 T*
-[(27:)-599.7(execute íupdate && updateí do)]TJ
+[(27:)-599.7(# execute íinstall working rust nightly buildí do)]TJ
 T*
-[(28:)-599.7(  cwd í/srv/wraithí)]TJ
+[(28:)-599.7(#   cwd í/srv/wraithí)]TJ
 T*
-[(29:)-599.7(  command í/root/.cargo/bin/rustup update && )]TJ
+[(29:)-599.7(#   command í/root/.cargo/bin/rustup install )]TJ
 ET
 351.235 333.875 m
 351.235 336.286 l
@@ -98,9 +98,9 @@ ET
 S
 BT
 0 9.6448 -9.6448 0 366.3916 27.4446 Tm
-(/root/.cargo/bin/cargo updateí)Tj
+(nightly-2018-04-19í)Tj
 1.8714 -1.0714 TD
-[(30:)-599.7(end)]TJ
+[(30:)-599.7(# end)]TJ
 T*
 (31:)Tj
 T*
@@ -108,101 +108,124 @@ T*
 T*
 (33:)Tj
 T*
-[(34:)-599.7(package [ ísqlite-develí, ímariadb-develí, )]TJ
+[(34:)-599.7(# package [ ísqlite-develí , ímariadb-develí, )]TJ
 ET
-413.238 322.301 m
-413.238 324.712 l
-418.06 319.89 l
-415.649 321.095 m
-418.06 319.89 l
-416.855 322.301 l
+413.238 339.662 m
+413.238 342.073 l
+418.06 337.251 l
+415.649 338.456 m
+418.06 337.251 l
+416.855 339.662 l
 S
 BT
 0 9.6448 -9.6448 0 428.3942 27.4446 Tm
 (ípostgresql-develí ])Tj
 1.8714 -1.0714 TD
-(35:)Tj
+[(35:)-599.7(package [ ísqlite-develí ])]TJ
 T*
-[(36:)-599.7(execute íinstall diesel-clií do)]TJ
+(36:)Tj
 T*
-[(37:)-599.7(  cwd í/srv/wraithí)]TJ
+[(37:)-599.7(execute íinstall dependenciesí do)]TJ
 T*
-[(38:)-599.7(  command í/root/.cargo/bin/cargo install diesel_clií)]TJ
+[(38:)-599.7(  cwd í/srv/wraithí)]TJ
 T*
-[(39:)-599.7(  not_if { File.exist?\(í/root/.cargo/bin/dieselí\) })]TJ
+[(39:)-599.7(  command í/root/.cargo/bin/cargo install --forceí)]TJ
 T*
 [(40:)-599.7(end)]TJ
 T*
 (41:)Tj
 T*
-[(42:)-599.7(execute ídatabase setupí do)]TJ
+[(42:)-599.7(execute íinstall diesel-clií do)]TJ
 T*
 [(43:)-599.7(  cwd í/srv/wraithí)]TJ
 T*
-[(44:)-599.7(  command í/root/.cargo/bin/diesel setup && )]TJ
+[(44:)-599.7(  command í/root/.cargo/bin/cargo install diesel_cli )]TJ
 ET
-526.909 328.088 m
-526.909 330.499 l
-531.732 325.677 l
-529.32 326.882 m
-531.732 325.677 l
-530.526 328.088 l
+526.909 380.17 m
+526.909 382.581 l
+531.732 377.759 l
+529.32 378.964 m
+531.732 377.759 l
+530.526 380.17 l
 S
 BT
 0 9.6448 -9.6448 0 542.0654 27.4446 Tm
-(/root/.cargo/bin/diesel migration runí)Tj
+(--version 1.2.0 --no-default-features --features "sqlite"í)Tj
 1.8714 -1.0714 TD
-[(45:)-599.7(end)]TJ
+[(45:)-599.7(  not_if { File.exist?\(í/root/.cargo/bin/dieselí\) })]TJ
 T*
-(46:)Tj
+[(46:)-599.7(end)]TJ
 /TT2 1 Tf
 0 6.8892 -6.8892 0 32.0373 429.4446 Tm
 (ò/cookbooks/rust_service/recipes/default.rb)Tj
 /TT4 1 Tf
 0 9.6448 -9.6448 0 46.0453 447.4942 Tm
-[(47:)-599.7(execute íbuildí do)]TJ
+(47:)Tj
 T*
-[(48:)-599.7(  cwd í/srv/wraithí)]TJ
+[(48:)-599.7(execute ídatabase setupí do)]TJ
 T*
-[(49:)-599.7(  command í/root/.cargo/bin/cargo buildí)]TJ
+[(49:)-599.7(  cwd í/srv/wraithí)]TJ
 T*
-[(50:)-599.7(end)]TJ
+[(50:)-599.7(  command í/root/.cargo/bin/diesel setup && )]TJ
+ET
+72.224 730.088 m
+72.224 732.499 l
+77.047 727.677 l
+74.635 728.882 m
+77.047 727.677 l
+75.841 730.088 l
+S
+BT
+0 9.6448 -9.6448 0 87.3803 429.4446 Tm
+(/root/.cargo/bin/diesel migration runí)Tj
+1.8714 -1.0714 TD
+[(51:)-599.7(end)]TJ
 T*
-(51:)Tj
+(52:)Tj
 T*
-[(52:)-599.7(template í/etc/systemd/system/wraith.serviceí do)]TJ
+[(53:)-599.7(execute íbuildí do)]TJ
 T*
-[(53:)-599.7(  source íservice.erbí)]TJ
+[(54:)-599.7(  cwd í/srv/wraithí)]TJ
 T*
-[(54:)-599.7(end)]TJ
+[(55:)-599.7(  command í/root/.cargo/bin/cargo buildí)]TJ
 T*
-(55:)Tj
+[(56:)-599.7(end)]TJ
 T*
-[(56:)-599.7(template í/srv/wraith/start.shí do)]TJ
+(57:)Tj
 T*
-[(57:)-599.7(  source ístart.sh.erbí)]TJ
+[(58:)-599.7(template í/etc/systemd/system/wraith.serviceí do)]TJ
 T*
-[(58:)-599.7(  mode í0777í)]TJ
+[(59:)-599.7(  source íservice.erbí)]TJ
 T*
-[(59:)-599.7(end)]TJ
+[(60:)-599.7(end)]TJ
 T*
-(60:)Tj
+(61:)Tj
 T*
-[(61:)-599.7(template í/srv/wraith/stop.shí do)]TJ
+[(62:)-599.7(template í/srv/wraith/start.shí do)]TJ
 T*
-[(62:)-599.7(  source ístop.sh.erbí)]TJ
+[(63:)-599.7(  source ístart.sh.erbí)]TJ
 T*
-[(63:)-599.7(  mode í0777í)]TJ
+[(64:)-599.7(  mode í0777í)]TJ
 T*
-[(64:)-599.7(end)]TJ
+[(65:)-599.7(end)]TJ
 T*
-(65:)Tj
+(66:)Tj
 T*
-[(66:)-599.7(service íwraithí do)]TJ
+[(67:)-599.7(template í/srv/wraith/stop.shí do)]TJ
 T*
-[(67:)-599.7(  action :start)]TJ
+[(68:)-599.7(  source ístop.sh.erbí)]TJ
 T*
-[(68:)-599.7(end)]TJ
+[(69:)-599.7(  mode í0777í)]TJ
+T*
+[(70:)-599.7(end)]TJ
+T*
+(71:)Tj
+T*
+[(72:)-599.7(service íwraithí do)]TJ
+T*
+[(73:)-599.7(  action :start)]TJ
+T*
+[(74:)-599.7(end)]TJ
 ET
 endstream
 endobj
@@ -328,8 +351,8 @@ endobj
 endobj
 12 0 obj
 <<
-/CreationDate (D:20180518155000-05'00')
-/ModDate (D:20180518155000-05'00')
+/CreationDate (D:20180521213031-05'00')
+/ModDate (D:20180521213031-05'00')
 /Producer (PSNormalizer.framework)
 >>
 endobj
@@ -343,26 +366,26 @@ endobj
 xref
 0 14
 0000000000 65535 f 
-0000005401 00000 n 
+0000005901 00000 n 
 0000000016 00000 n 
-0000003808 00000 n 
-0000004445 00000 n 
-0000004869 00000 n 
-0000003914 00000 n 
-0000005549 00000 n 
-0000004054 00000 n 
-0000004255 00000 n 
-0000005481 00000 n 
-0000005509 00000 n 
-0000005641 00000 n 
-0000005773 00000 n 
+0000004308 00000 n 
+0000004945 00000 n 
+0000005369 00000 n 
+0000004414 00000 n 
+0000006049 00000 n 
+0000004554 00000 n 
+0000004755 00000 n 
+0000005981 00000 n 
+0000006009 00000 n 
+0000006141 00000 n 
+0000006273 00000 n 
 trailer
 <<
 /Size 14
 /Root 13 0 R
 /Info 12 0 R
-/ID [<a40de2c16e6b301a9748770ed800b2f8><a40de2c16e6b301a9748770ed800b2f8>]
+/ID [<ef8a1627450ef9e51765a6a9d9943c76><ef8a1627450ef9e51765a6a9d9943c76>]
 >>
 startxref
-5842
+6342
 %%EOF
