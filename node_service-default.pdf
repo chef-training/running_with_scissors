@@ -2,7 +2,7 @@
 %‚„œ”
 2 0 obj
 <<
-/Length 4241
+/Length 3216
 >>
 stream
 BT
@@ -17,7 +17,7 @@ BT
 0 9.6448 -9.6448 0 46.0453 51.2811 Tm
 [(0:)-599.8(#)]TJ
 0 -1.0714 TD
-[(1:)-599.8(# Cookbook:: ruby_service)]TJ
+[(1:)-599.8(# Cookbook:: node_service)]TJ
 T*
 [(2:)-599.8(# Recipe:: default)]TJ
 T*
@@ -35,9 +35,9 @@ T*
 T*
 (9:)Tj
 -0.6 -1.0714 TD
-[(10:)-599.7(cookbook_file í/srv/specter.zipí do)]TJ
+[(10:)-599.7(cookbook_file í/srv/lich.zipí do)]TJ
 T*
-[(11:)-599.7(  source íspecter.zipí)]TJ
+[(11:)-599.7(  source ílich.zipí)]TJ
 T*
 [(12:)-599.7(  notifies :run, íexecute[extract_site]í, :immediately)]TJ
 T*
@@ -49,9 +49,9 @@ T*
 T*
 [(16:)-599.7(  cwd í/srví)]TJ
 T*
-[(17:)-599.7(  command íunzip specter.zipí)]TJ
+[(17:)-599.7(  command íunzip lich.zipí)]TJ
 T*
-[(18:)-599.7(  not_if { File.exist?\(í/srv/specterí\) })]TJ
+[(18:)-599.7(  not_if { File.exist?\(í/srv/lichí\) })]TJ
 T*
 [(19:)-599.7(  action :nothing)]TJ
 T*
@@ -59,171 +59,125 @@ T*
 T*
 (21:)Tj
 T*
-[(22:)-599.7(package %w[git-core zlib zlib-devel gcc-c++ patch )]TJ
+[(22:)-599.7(package %w[gcc gcc-c++ sqlite-devel])]TJ
+T*
+(23:)Tj
+T*
+[(24:)-599.7(remote_file í/tmp/node-v10.1.0-linux-x64.tar.gzí do)]TJ
+T*
+[(25:)-599.7(  source )]TJ
 ET
 0 G
 0 J 0 j 0.138 w 10 M []0 d
 1 i 
-268.565 362.809 m
-268.565 365.221 l
-273.388 360.398 l
-270.977 361.604 m
-273.388 360.398 l
-272.182 362.809 l
+299.567 125.546 m
+299.567 127.958 l
+304.389 123.135 l
+301.978 124.341 m
+304.389 123.135 l
+303.184 125.546 l
 S
 BT
-0 9.6448 -9.6448 0 283.7216 27.4446 Tm
-(readline readline-devel libyaml-devel libffi-devel )Tj
-ET
-278.899 327.399 m
-278.899 329.81 l
-283.722 324.988 l
-281.31 326.193 m
-283.722 324.988 l
-282.516 327.399 l
-S
-BT
-0 9.6448 -9.6448 0 294.0554 27.4446 Tm
-(openssl-devel make bzip2 autoconf automake libtool bison curl )Tj
-ET
-289.233 391.055 m
-289.233 393.466 l
-294.055 388.644 l
-291.644 389.849 m
-294.055 388.644 l
-292.85 391.055 l
-S
-BT
-0 9.6448 -9.6448 0 304.3891 27.4446 Tm
-(sqlite-devel])Tj
-1.8714 -1.0714 TD
-(23:)Tj
-T*
-[(24:)-599.7(remote_file í/tmp/ruby-2.5.1.tar.gzí do)]TJ
-T*
-[(25:)-599.7(  source )]TJ
-ET
-330.568 125.546 m
-330.568 127.958 l
-335.39 123.135 l
-332.979 124.341 m
-335.39 123.135 l
-334.185 125.546 l
-S
-BT
-0 9.6448 -9.6448 0 345.7242 27.4446 Tm
-(íhttps://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gzí)Tj
+0 9.6448 -9.6448 0 314.7229 27.4446 Tm
+(íhttp://nodejs.org/dist/v10.1.0/node-v10.1.0-linux-x64.tar.gzí)Tj
 1.8714 -1.0714 TD
 [(26:)-599.7(end)]TJ
 T*
 (27:)Tj
 T*
-[(28:)-599.7(execute íextract rubyí do)]TJ
+[(28:)-599.7(execute íextract nodeí do)]TJ
 T*
 [(29:)-599.7(  cwd í/tmpí)]TJ
 T*
-[(30:)-599.7(  command ítar -xvf ruby-2.5.1.tar.gzí)]TJ
-T*
-[(31:)-599.7(  not_if { File.exist?\(í/tmp/ruby-2.5.1í\) })]TJ
+[(30:)-599.7(  command ítar --strip-components 1 -xzvf )]TJ
+ET
+361.569 316.514 m
+361.569 318.925 l
+366.392 314.103 l
+363.98 315.309 m
+366.392 314.103 l
+365.186 316.514 l
+S
+BT
+0 9.6448 -9.6448 0 376.7254 27.4446 Tm
+(node-v10.1.0-linux-x64.tar.gz -C /usr/localí)Tj
+1.8714 -1.0714 TD
+[(31:)-599.7(  not_if { File.exist?\(í/usr/local/bin/nodeí\) })]TJ
 T*
 [(32:)-599.7(end)]TJ
 T*
 (33:)Tj
 T*
-[(34:)-599.7(execute íconfigure, make and install rubyí do)]TJ
+[(34:)-599.7(execute íinstall dependenciesí do)]TJ
 T*
-[(35:)-599.7(  cwd í/tmp/ruby-2.5.1í)]TJ
+[(35:)-599.7(  cwd í/srv/lichí)]TJ
 T*
-[(36:)-599.7(  command í./configure && make && make installí)]TJ
+[(36:)-599.7(  command ínpm installí)]TJ
 T*
-[(37:)-599.7(  not_if { File.exist?\(í/usr/local/bin/rubyí\) })]TJ
+[(37:)-599.7(end)]TJ
 T*
-[(38:)-599.7(end)]TJ
+(38:)Tj
 T*
-(39:)Tj
+[(39:)-599.7(execute ímigrate databateí do)]TJ
 T*
-[(40:)-599.7(execute íinstall bundlerí do)]TJ
+[(40:)-599.7(  cwd í/srv/lichí)]TJ
 T*
-[(41:)-599.7(  command í/usr/local/bin/gem install bundlerí)]TJ
+[(41:)-599.7(  command íbin/migrateí)]TJ
 T*
-[(42:)-599.7(  not_if { File.exist?\(í/usr/local/bin/bundleí\) })]TJ
+[(42:)-599.7(end)]TJ
 T*
-[(43:)-599.7(end)]TJ
+(43:)Tj
 T*
-(44:)Tj
+[(44:)-599.7(template í/etc/systemd/system/lich.serviceí do)]TJ
 T*
-[(45:)-599.7(execute íbundle installí do)]TJ
+[(45:)-599.7(  source íservice.erbí)]TJ
 T*
-[(46:)-599.7(  cwd í/srv/specterí)]TJ
+[(46:)-599.7(  variables\({ service_name: ílichí, working_directory: )]TJ
+ET
+537.243 391.744 m
+537.243 394.155 l
+542.065 389.333 l
+539.654 390.538 m
+542.065 389.333 l
+540.86 391.744 l
+S
+BT
+0 9.6448 -9.6448 0 552.3992 27.4446 Tm
+(í/srv/lichí }\))Tj
+1.8714 -1.0714 TD
+[(47:)-599.7(end)]TJ
 /TT2 1 Tf
 0 6.8892 -6.8892 0 32.0373 429.4446 Tm
 (ò/cookbooks/node_service/recipes/default.rb)Tj
 /TT4 1 Tf
 0 9.6448 -9.6448 0 46.0453 447.4942 Tm
-[(47:)-599.7(  command í/usr/local/bin/bundle installí)]TJ
+(48:)Tj
 T*
-[(48:)-599.7(  not_if { File.exist?\(í/srv/specter/Gemfile.lockí\) })]TJ
+[(49:)-599.7(template í/srv/lich/start.shí do)]TJ
 T*
-[(49:)-599.7(end)]TJ
+[(50:)-599.7(  source ístart.sh.erbí)]TJ
 T*
-(50:)Tj
+[(51:)-599.7(  mode í0774í)]TJ
 T*
-[(51:)-599.7(execute ídatabase migrationí do)]TJ
+[(52:)-599.7(end)]TJ
 T*
-[(52:)-599.7(  cwd í/srv/specterí)]TJ
+(53:)Tj
 T*
-[(53:)-599.7(  command írake migrateí)]TJ
+[(54:)-599.7(template í/srv/lich/stop.shí do)]TJ
 T*
-[(54:)-599.7(end)]TJ
+[(55:)-599.7(  source ístop.sh.erbí)]TJ
 T*
-(55:)Tj
+[(56:)-599.7(  mode í0774í)]TJ
 T*
-[(56:)-599.7(template í/etc/systemd/system/specter.serviceí do)]TJ
+[(57:)-599.7(end)]TJ
 T*
-[(57:)-599.7(  source íservice.erbí)]TJ
+(58:)Tj
 T*
-[(58:)-599.7(  variables\({ service_name: íspecterí, )]TJ
-ET
-154.894 701.153 m
-154.894 703.565 l
-159.717 698.742 l
-157.305 699.948 m
-159.717 698.742 l
-158.511 701.153 l
-S
-BT
-0 9.6448 -9.6448 0 170.0503 429.4446 Tm
-(working_directory: í/srv/specterí }\))Tj
-1.8714 -1.0714 TD
-[(59:)-599.7(end)]TJ
+[(59:)-599.7(service ílichí do)]TJ
 T*
-(60:)Tj
+[(60:)-599.7(  action :start)]TJ
 T*
-[(61:)-599.7(template í/srv/specter/start.shí do)]TJ
-T*
-[(62:)-599.7(  source ístart.sh.erbí)]TJ
-T*
-[(63:)-599.7(  mode í0774í)]TJ
-T*
-[(64:)-599.7(end)]TJ
-T*
-(65:)Tj
-T*
-[(66:)-599.7(template í/srv/specter/stop.shí do)]TJ
-T*
-[(67:)-599.7(  source ístop.sh.erbí)]TJ
-T*
-[(68:)-599.7(  mode í0774í)]TJ
-T*
-[(69:)-599.7(end)]TJ
-T*
-(70:)Tj
-T*
-[(71:)-599.7(service íspecterí do)]TJ
-T*
-[(72:)-599.7(  action :start)]TJ
-T*
-[(73:)-599.7(end)]TJ
+[(61:)-599.7(end)]TJ
 ET
 endstream
 endobj
@@ -307,11 +261,11 @@ endobj
 /Subtype /TrueType
 /FirstChar 32
 /LastChar 146
-/Widths [600 0 0 600 0 600 600 0 600 600 0 600 600 600 600 600 
+/Widths [600 0 0 600 0 600 0 0 600 600 0 600 600 600 600 600 
 600 600 600 600 600 600 600 600 600 600 600 0 0 0 0 600 
-0 600 0 600 0 0 600 600 0 0 0 0 0 0 0 0 
+0 600 0 600 0 0 600 0 0 0 0 0 0 0 0 0 
 0 0 600 0 600 0 0 0 0 0 0 600 0 600 0 600 
-0 600 600 600 600 600 600 600 600 600 0 600 600 600 600 600 
+0 600 600 600 600 600 600 600 600 600 600 600 600 600 600 600 
 600 600 600 600 600 600 600 600 600 600 600 600 0 600 0 0 
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 0 0 600 ]
@@ -349,8 +303,8 @@ endobj
 endobj
 12 0 obj
 <<
-/CreationDate (D:20180518154944-05'00')
-/ModDate (D:20180518154944-05'00')
+/CreationDate (D:20180522115308-05'00')
+/ModDate (D:20180522115308-05'00')
 /Producer (PSNormalizer.framework)
 >>
 endobj
@@ -364,26 +318,26 @@ endobj
 xref
 0 14
 0000000000 65535 f 
-0000005888 00000 n 
+0000004861 00000 n 
 0000000016 00000 n 
-0000004309 00000 n 
-0000004946 00000 n 
-0000005372 00000 n 
-0000004415 00000 n 
-0000006036 00000 n 
-0000004555 00000 n 
-0000004756 00000 n 
-0000005968 00000 n 
-0000005996 00000 n 
-0000006128 00000 n 
-0000006260 00000 n 
+0000003284 00000 n 
+0000003921 00000 n 
+0000004347 00000 n 
+0000003390 00000 n 
+0000005009 00000 n 
+0000003530 00000 n 
+0000003731 00000 n 
+0000004941 00000 n 
+0000004969 00000 n 
+0000005101 00000 n 
+0000005233 00000 n 
 trailer
 <<
 /Size 14
 /Root 13 0 R
 /Info 12 0 R
-/ID [<6cbc175da97b4c12a7bc980cdedb31f4><6cbc175da97b4c12a7bc980cdedb31f4>]
+/ID [<627c456b58cd01dd61639bf54cecad52><627c456b58cd01dd61639bf54cecad52>]
 >>
 startxref
-6329
+5302
 %%EOF
