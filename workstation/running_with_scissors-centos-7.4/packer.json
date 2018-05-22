@@ -2,7 +2,7 @@
   "variables": {
     "aws_keypair_name": "{{env `TRAINING_AWS_KEYPAIR_NAME`}}",
     "aws_keypair_file": "{{env `TRAINING_AWS_KEYPAIR`}}",
-    "name": "Running with Scissors - CentOS 7.4 - 0.1.0",
+    "name": "Running with Scissors - CentOS 7.4 - 0.3.0",
     "chefdk_version": "2.5.3"
   },
   "builders": [{
@@ -22,6 +22,7 @@
       "echo 'The base image updated cloud-init. Waiting for cloud-init to finish (~ 5 minutes).'",
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting 15 seconds for cloud-init...'; sleep 15; done",
       "curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -v {{user `chefdk_version`}} -P chefdk",
+      "curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash",
       "sudo yum install -y git tree",
       "git clone https://github.com/chef-training/running_with_scissors.git /home/chef/running_with_scissors-source",
       "cp -R /home/chef/running_with_scissors-source/cookbooks /home/chef/cookbooks",
